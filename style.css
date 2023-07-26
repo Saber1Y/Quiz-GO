@@ -58,11 +58,22 @@ body {
   width: 150px;
   border: 0;
   padding: 10px;
-  display: none;
   margin: 0 auto;
   border-radius: 20px;
   cursor: pointer;
-  transition: 0.3ss;
+  transition: 0.3s;
+}
+.trybtn {
+  background-color: #001e4d;
+  color: #fff;
+  font-weight: 500;
+  width: 150px;
+  border: 0;
+  padding: 10px;
+  margin: 0 auto;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .btn.correct {
   background-color: green;
