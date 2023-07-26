@@ -56,6 +56,7 @@ const question = [
       currentQuestionIndex++;
       if (currentQuestionIndex < totalQuestions) {
         showQuestion();
+        startTimer(30);
       } else {
         endQuiz();
       }
@@ -108,7 +109,7 @@ const question = [
         score = 0;
         nextButton.innerHTML = "Next";
         showQuestion();
-        startTimer(300);
+        startTimer(30);
 
         tryAgainButton.style.display = 'none';
     }
