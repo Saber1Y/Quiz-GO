@@ -17,9 +17,12 @@ body {
   padding: 30px;
 }
 .app h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 25px;
-  color: #001e4d;
   font-weight: 600;
+  color: #001e4d;
   border-bottom: 1px solid;
   padding-bottom: 30px;
 }
@@ -60,4 +63,32 @@ body {
   border-radius: 20px;
   cursor: pointer;
   transition: 0.3ss;
+}
+.btn.correct {
+  background-color: green;
+}
+.btn.incorrect {
+  background-color: red;
+}
+
+#timer {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#time {
+  color: #ff5733;
+}
+#scoreboard {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#score,
+#total-questions {
+  color: #ff5733;
 }
