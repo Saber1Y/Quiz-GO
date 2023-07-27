@@ -50,11 +50,15 @@ const question = [
     const timeElement = document.getElementById('time');
     let timeLeft = 0;
     const tryAgainButton = document.getElementById('try-again');
-    const tryAgainButtonBtn = document.getElementById('try-again-btn');
- 
+    const tryAgainButtonBtn = document.getElementById('try-again-btn')
+    
+    let remainingTime = 30;
+    let answered = false;
+
     function showNextQuestion() {
-      currentQuestionIndex++;
+      answered = false;
       if (currentQuestionIndex < totalQuestions) {
+        currentQuestionIndex++;
         showQuestion();
         startTimer(30);
       } else {
@@ -62,8 +66,36 @@ const question = [
       }
 
       nextButton.style.display = 'none';
+      remainingTime = 30;
     }
     
+    function startTimer(duration) {
+      remainingTime = duration;
+      let minutes, seconds;
+      const timerInterval = setInterval(() => {
+        minutes = Math.floor(remainingTime / 60);
+        seconds = remainingTime % 60;
+        timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+        if (--remainingTime < 0) {
+          clearInterval(timerInterval);
+          if (!answered) {
+           
+            currentQuestionIndex++;
+            if (currentQuestionIndex < totalQuestions) {
+              showQuestion();
+              startTimer(30);
+            } else {
+              endQuiz();
+            }
+    
+            nextButton.style.display = 'none';
+          }
+        }
+      }, 1000);
+    }
+
+
     function tryAgain() {
       answerButton.querySelectorAll('.btn').forEach((btn) => {
         btn.classList.remove('correct', 'incorrect');
@@ -75,7 +107,6 @@ const question = [
     function endQuiz() {
       'weldone! You have completed the Quiz'
     }
-
 
 
 
@@ -95,40 +126,27 @@ const question = [
         nextButton.style.display = 'none';
       }
     
+      answered = true;
+
       for (let i = 0; i < answerButton.children.length; i++) {
         answerButton.children[i].disabled = true;
       }
     
       scoreElement.textContent = score;
-      totalQuestionsElement.textContent = totalQuestions;
+      totalQuestionsElement.textContent = `${currentQuestionIndex + 1}/${totalQuestions}`;
     }
     
-
     function startQuiz(){
-        currentQuestionIndex = 0;
-        score = 0;
-        nextButton.innerHTML = "Next";
-        showQuestion();
-        startTimer(30);
-
-        tryAgainButton.style.display = 'none';
+      currentQuestionIndex = 0;
+      score = 0;
+      nextButton.innerHTML = "Next";
+      showQuestion();
+      startTimer(30);
+    
+      tryAgainButton.style.display = 'none';
+      totalQuestionsElement.textContent = `${totalQuestions}`;
     }
 
-    function startTimer(duration) {
-        let timer = duration;
-        let minutes, seconds;
-        timeLeft = timer;
-        const timerInterval = setInterval(() => {
-          minutes = Math.floor(timer / 60);
-          seconds = timer % 60;
-          timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-      
-          if (--timer < 0) {
-            clearInterval(timerInterval);
-            endQuiz();
-          }
-        }, 1000);
-      }
 
       function showQuestion() {
         let currentQuestion = question[currentQuestionIndex];
