@@ -38,23 +38,86 @@ const question = [
         { text: "signal to other cells", correct: false},
         { text: "divide", correct: true},
     ]
+},
+{
+  question: 'What is the capital of France?',
+  answers: [
+    { text: 'Paris', correct: true },
+    { text: 'London', correct: false },
+    { text: 'Berlin', correct: false },
+    { text: 'Madrid', correct: false },
+  ]
+},
+{
+  question: 'Which planet is known as the "Red Planet"?',
+  answers: [
+    { text: 'Venus', correct: false },
+    { text: 'Mars', correct: true },
+    { text: 'Jupiter', correct: false },
+    { text: 'Saturn', correct: false },
+  ]
+},
+{
+  question: 'What is the chemical symbol for water?',
+  answers: [
+    { text: 'H2O', correct: true },
+    { text: 'CO2', correct: false },
+    { text: 'O2', correct: false },
+    { text: 'CH4', correct: false },
+  ]
+},
+{
+  question: 'Who wrote the play "Romeo and Juliet"?',
+  answers: [
+    { text: 'William Shakespeare', correct: true },
+    { text: 'Charles Dickens', correct: false },
+    { text: 'Jane Austen', correct: false },
+    { text: 'Mark Twain', correct: false },
+  ]
+},
+{
+  question: 'Which country is known as the "Land of the Rising Sun"?',
+  answers: [
+    { text: 'China', correct: false },
+    { text: 'Japan', correct: true },
+    { text: 'South Korea', correct: false },
+    { text: 'Thailand', correct: false },
+  ]
+},
+{
+  question: 'What is the largest mammal on Earth?',
+  answers: [
+    { text: 'Elephant', correct: false },
+    { text: 'Giraffe', correct: false },
+    { text: 'Blue Whale', correct: true },
+    { text: 'Hippopotamus', correct: false },
+  ]
 }
     ];
 
     const questionElement = document.getElementById('question');
     const answerButton = document.getElementById('answer-buttons');
-    const nextButton = document.getElementById('next-btn')
+    const nextButton = document.getElementById('next-btn');
     const scoreElement = document.getElementById('score');
     const totalQuestionsElement = document.getElementById('total-questions');
-    let totalQuestions = question.length;
     const timeElement = document.getElementById('time');
-    let timeLeft = 0;
     const tryAgainButton = document.getElementById('try-again');
-    const tryAgainButtonBtn = document.getElementById('try-again-btn')
+    const tryAgainButtonBtn = document.getElementById('try-again-btn');
     
+    let totalQuestions = question.length;
+    let correctAnswers = 0;
+    let currentQuestionIndex = 0;
     let remainingTime = 30;
     let answered = false;
-
+    let timer;
+    
+    
+    function updateScore() {
+      scoreElement.textContent = correctAnswers;
+      totalQuestionsElement.textContent = totalQuestions;
+    }
+    
+    
     function showNextQuestion() {
       answered = false;
       if (currentQuestionIndex < totalQuestions) {
@@ -64,23 +127,23 @@ const question = [
       } else {
         endQuiz();
       }
-
+    
       nextButton.style.display = 'none';
       remainingTime = 30;
     }
     
+    
     function startTimer(duration) {
-      remainingTime = duration;
       let minutes, seconds;
-      const timerInterval = setInterval(() => {
+      remainingTime = duration;
+      timer = setInterval(() => {
         minutes = Math.floor(remainingTime / 60);
         seconds = remainingTime % 60;
         timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     
         if (--remainingTime < 0) {
-          clearInterval(timerInterval);
+          clearInterval(timer);
           if (!answered) {
-           
             currentQuestionIndex++;
             if (currentQuestionIndex < totalQuestions) {
               showQuestion();
@@ -88,14 +151,13 @@ const question = [
             } else {
               endQuiz();
             }
-    
             nextButton.style.display = 'none';
           }
         }
       }, 1000);
     }
-
-
+    
+    
     function tryAgain() {
       answerButton.querySelectorAll('.btn').forEach((btn) => {
         btn.classList.remove('correct', 'incorrect');
@@ -104,19 +166,15 @@ const question = [
       tryAgainButton.style.display = 'none';
     }
     
+    
     function endQuiz() {
-      'weldone! You have completed the Quiz'
+      alert('Congratulations! You have completed the Quiz');
     }
-
-
-
-    var currentQuestionIndex = 0;
-    var score = 0;
-    let timer;
-
+    
+    
     function checkAnswer(isCorrect, event) {
       if (isCorrect) {
-        score++;
+        correctAnswers++;
         event.target.classList.add('correct');
         tryAgainButton.style.display = 'none';
         nextButton.style.display = 'block';
@@ -127,48 +185,50 @@ const question = [
       }
     
       answered = true;
-
+    
       for (let i = 0; i < answerButton.children.length; i++) {
         answerButton.children[i].disabled = true;
       }
     
-      scoreElement.textContent = score;
-      totalQuestionsElement.textContent = `${currentQuestionIndex + 1}/${totalQuestions}`;
+      updateScore();
     }
     
-    function startQuiz(){
+    
+    function startQuiz() {
       currentQuestionIndex = 0;
-      score = 0;
+      correctAnswers = 0;
       nextButton.innerHTML = "Next";
       showQuestion();
       startTimer(30);
     
       tryAgainButton.style.display = 'none';
-      totalQuestionsElement.textContent = `${totalQuestions}`;
+      updateScore();
     }
-
-
-      function showQuestion() {
-        let currentQuestion = question[currentQuestionIndex];
-        let questionNo = currentQuestionIndex + 1;
-        questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
-      
-        answerButton.innerHTML = ''; 
-
-        currentQuestion.answers.forEach((answer) => {
-          const button = document.createElement('button');
-          button.innerHTML = answer.text;
-          button.classList.add('btn');
-          button.addEventListener('click', (event) => checkAnswer(answer.correct, event)); 
-          answerButton.appendChild(button);
-        });
-      }
-      
-      nextButton.addEventListener('click', showNextQuestion);
-      tryAgainButtonBtn.addEventListener('click', tryAgain);
-startQuiz();
-nextButton.style.display = 'none';
-
-
-
-alert('GoodLuck!');
+    
+    
+    function showQuestion() {
+      let currentQuestion = question[currentQuestionIndex];
+      let questionNo = currentQuestionIndex + 1;
+      questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+    
+      answerButton.innerHTML = '';
+    
+      currentQuestion.answers.forEach((answer) => {
+        const button = document.createElement('button');
+        button.innerHTML = answer.text;
+        button.classList.add('btn');
+        button.addEventListener('click', (event) => checkAnswer(answer.correct, event));
+        answerButton.appendChild(button);
+      });
+    }
+    
+    
+    nextButton.addEventListener('click', showNextQuestion);
+    tryAgainButtonBtn.addEventListener('click', tryAgain);
+    
+    
+    startQuiz();
+    nextButton.style.display = 'none';
+    
+    alert('GoodLuck!');
+    
