@@ -176,6 +176,7 @@ answers: [
       tryAgainButton.style.display = 'block';
     } else {
       alert('Congratulations! You have completed the Quiz.');
+      remainingTime == 0;
     }
   }
 
