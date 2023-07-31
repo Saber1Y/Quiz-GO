@@ -225,11 +225,18 @@ resetQuiz();
     showQuestion();
     remainingTime = 30;
     startTimer(remainingTime);
-
-tryAgainButton.style.display = 'none';
-totalQuestionsElement.textContent = totalQuestions;
-scoreElement.textContent = 0;
+  
+    tryAgainButton.style.display = 'none';
+    tryAgainButtonBtn.style.display = 'none';
+    answerButton.style.display = 'block';
+  
+    const endScreen = document.getElementById('end-screen');
+    endScreen.style.display = 'none';
+  
+    totalQuestionsElement.textContent = totalQuestions;
+    scoreElement.textContent = 0;
   }
+  
   
   function startQuiz() {
     currentQuestionIndex = 0;
@@ -271,6 +278,31 @@ scoreElement.textContent = 0;
 
   let timerInterval; 
 
+
+  function endQuiz() {
+    clearInterval(timer);
+    const endScreen = document.getElementById('end-screen');
+    const overallScoreElement = document.getElementById('overall-score');
+    const totalQuestionsElement = document.getElementById('total-questions');
+    
+    totalQuestionsElement.textContent = totalQuestions;
+    overallScoreElement.textContent = correctAnswers;
+    
+    if (correctAnswers === 0) {
+      alert('You did not answer any questions correctly. Would you like to try again?');
+      tryAgainButton.style.display = 'block';
+    } else if (correctAnswers < 5) {
+      alert('You failed, would you like to try again?');
+      tryAgainButton.style.display = 'block';
+    } else {
+      endScreen.style.display = 'block';
+    }
+    
+    nextButton.style.display = 'none';
+    tryAgainButtonBtn.style.display = 'block';
+    answerButton.style.display = 'none';
+  }
+  
 function startTimerWithSpeed(duration, speed) {
   let minutes, seconds;
   remainingTime = duration;
