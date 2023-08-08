@@ -101,7 +101,7 @@ answers: [
   const scoreElement = document.getElementById('score');
   const totalQuestionsElement = document.getElementById('total-questions');
   const timeElement = document.getElementById('time');
-  const tryAgainButton = document.getElementById('try-again');
+  const tryAgainButtonDiv = document.getElementById('try-again');
   const tryAgainButtonBtn = document.getElementById('try-again-btn');
   
   let totalQuestions = question.length;
@@ -130,7 +130,6 @@ answers: [
     } else {
       endQuiz();
     }
-  
     nextButton.style.display = 'none';
     remainingTime = 30;
   }
@@ -144,12 +143,15 @@ answers: [
       seconds = remainingTime % 60;
       timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   
-      if (--remainingTime < 0) {
+      if (remainingTime <= 0) {
         clearInterval(timer);
         if (!answered) {
           showNextQuestion();
           nextButton.style.display = 'none';
         }
+      }
+      else {
+        remainingTime--;
       }
     }, 1000);
 
@@ -162,18 +164,18 @@ answers: [
       btn.classList.remove('correct', 'incorrect');
       btn.disabled = false;
     });
-    tryAgainButton.style.display = 'none';
+    tryAgainButtonDiv.style.display = 'Block';
   }
   
   
   function endQuiz() {
     if(correctAnswers === 0) {
       alert('You did not answer any questions correctly. Would you like to try again?');
-      tryAgainButton.style.display = 'block';
+      tryAgainButtonDiv.style.display = 'block';
     }
     else if (correctAnswers < 5) {
       alert('You failed, would like too try again?');
-      tryAgainButton.style.display = 'block';
+      tryAgainButtonDiv.style.display = 'block';
     } else {
       alert('Congratulations! You have completed the Quiz.');
       remainingTime == 0;
@@ -196,15 +198,14 @@ resetQuiz();
     if (isCorrect) {
       correctAnswers++;
       event.target.classList.add('correct');
-      tryAgainButton.style.display = 'none';
+      tryAgainButtonDiv.style.display = 'none';
       nextButton.style.display = 'block';
     }
     else {
       event.target.classList.add('incorrect');
-      tryAgainButton.style.display = 'block';
+      tryAgainButtonDiv.style.display = 'block';
       nextButton.style.display = 'none';
       startTimer(remainingTime);
-      // startTimerWithSpeed(30, 10000)
       // showNextQuestion();
     }
   
@@ -226,7 +227,7 @@ resetQuiz();
     remainingTime = 30;
     startTimer(remainingTime);
   
-    tryAgainButton.style.display = 'none';
+    tryAgainButtonDiv.style.display = 'none';
     tryAgainButtonBtn.style.display = 'none';
     answerButton.style.display = 'block';
   
@@ -245,7 +246,7 @@ resetQuiz();
     showQuestion();
     startTimer(30);
   
-    tryAgainButton.style.display = 'none';
+    tryAgainButtonDiv.style.display = 'none';
     updateScore();
   }
   
@@ -290,10 +291,10 @@ resetQuiz();
     
     if (correctAnswers === 0) {
       alert('You did not answer any questions correctly. Would you like to try again?');
-      tryAgainButton.style.display = 'block';
+      tryAgainButtonDiv.style.display = 'block';
     } else if (correctAnswers < 5) {
       alert('You failed, would you like to try again?');
-      tryAgainButton.style.display = 'block';
+      tryAgainButtonDiv.style.display = 'block';
     } else {
       endScreen.style.display = 'block';
     }
@@ -303,24 +304,24 @@ resetQuiz();
     answerButton.style.display = 'none';
   }
   
-function startTimerWithSpeed(duration, speed) {
-  let minutes, seconds;
-  remainingTime = duration;
-  clearInterval(timerInterval); 
+// function startTimerWithSpeed(duration, speed) {
+//   let minutes, seconds;
+//   remainingTime = duration;
+//   clearInterval(timerInterval); 
 
-  timerInterval = setInterval(() => {
-    minutes = Math.floor(remainingTime / 60);
-    seconds = remainingTime % 60;
-    timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+//   timerInterval = setInterval(() => {
+//     minutes = Math.floor(remainingTime / 60);
+//     seconds = remainingTime % 60;
+//     timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
-    if (--remainingTime < 0) {
-      clearInterval(timerInterval);
-      if (!answered) {
-        showNextQuestion();
-        nextButton.style.display = 'none';
-      }
-    }
-  }, speed);
-}
+//     if (--remainingTime < 0) {
+//       clearInterval(timerInterval);
+//       if (!answered) {
+//         showNextQuestion();
+//         nextButton.style.display = 'none';
+//       }
+//     }
+//   }, speed);
+// }
 
   alert('GoodLuck!');
