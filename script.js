@@ -120,12 +120,13 @@ answers: [
   
   function showNextQuestion() {
     answered = false;
-    clearInterval(timer);
+    // clearInterval(timer);
 
     if (currentQuestionIndex < totalQuestions - 1) {
       currentQuestionIndex++;
       showQuestion();
       remainingTime = 30;
+      console.log(remainingTime);
       startTimer(remainingTime);
     } else {
       endQuiz();
@@ -133,7 +134,6 @@ answers: [
     nextButton.style.display = 'none';
     remainingTime = 30;
   }
-  
   
   function startTimer(duration) {
     let minutes, seconds;
@@ -143,7 +143,7 @@ answers: [
       seconds = remainingTime % 60;
       timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   
-      if (remainingTime <= 0) {
+      if (remainingTime == 0) {
         clearInterval(timer);
         if (!answered) {
           showNextQuestion();
