@@ -53,31 +53,33 @@ body {
 }
 #next-btn {
   display: flex;
-  align-items: center;
+  text-align: center;
   background-color: #001e4d;
   color: #fff;
   font-weight: 500;
   width: 150px;
   border: 0;
-  padding: 10px;
-  margin: 0 190px;
+  padding: 10px 50px;
+  margin: 0 auto;
+  margin-bottom: 10px;
   border-radius: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
-#try-again-btn span {
-  position: relative;
-  top: 2px;
-  padding: 10px;
+.try-again {
+  display: flex;
+  text-align: center;
 }
 #try-again-btn {
+  display: flex;
+  text-align: center;
   background-color: #001e4d;
   color: #fff;
   font-weight: 500;
   width: 150px;
   border: 0;
-  padding: 10px;
-  margin: 0 190px;
+  padding: 10px 20px;
+  margin: 0 auto;
   border-radius: 20px;
   cursor: pointer;
   transition: 0.3s;
@@ -260,7 +262,6 @@ li {
 @media (max-width: 768px) {
   .welcome-container p {
     margin: auto auto;
-    /* font-size: 20px; */
   }
   .rule-set {
     height: fit-content;

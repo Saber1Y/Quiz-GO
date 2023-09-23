@@ -108,7 +108,7 @@ answers: [
   let correctAnswers = 0;
   let currentQuestionIndex = 0;
   let remainingTime = 30;
-  let answered = false;
+  // let answered = false;
   let timer;
   
   
@@ -117,12 +117,10 @@ answers: [
     totalQuestionsElement.textContent = totalQuestions;
   }
   
-  
-  function showNextQuestion() {
+function showNextQuestion() {
     answered = false;
-    // clearInterval(timer);
-
-    if (currentQuestionIndex < totalQuestions - 1) {
+    clearInterval(timer);
+    if (currentQuestionIndex < totalQuestions -1) {
       currentQuestionIndex++;
       showQuestion();
       remainingTime = 30;
@@ -158,13 +156,15 @@ answers: [
     answered = false;
   }
   
-  
-  function tryAgain() {
-    answerButton.querySelectorAll('.btn').forEach((btn) => {
-      btn.classList.remove('correct', 'incorrect');
-      btn.disabled = false;
-    });
-    tryAgainButtonDiv.style.display = 'Block';
+; function tryAgain() {
+    // answerButton.querySelectorAll('.btn').forEach((btn) => {
+    //   btn.classList.remove('correct', 'incorrect');
+    //   btn.disabled = false;
+    // });
+    // tryAgainButtonDiv.style.display = 'Block';
+    tryAgainButtonBtn.classList.remove('correctAnswer');
+    tryAgainButtonDiv.style.display = 'none';
+    startTimer();
   }
   
   
@@ -303,25 +303,5 @@ resetQuiz();
     tryAgainButtonBtn.style.display = 'block';
     answerButton.style.display = 'none';
   }
-  
-// function startTimerWithSpeed(duration, speed) {
-//   let minutes, seconds;
-//   remainingTime = duration;
-//   clearInterval(timerInterval); 
-
-//   timerInterval = setInterval(() => {
-//     minutes = Math.floor(remainingTime / 60);
-//     seconds = remainingTime % 60;
-//     timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-//     if (--remainingTime < 0) {
-//       clearInterval(timerInterval);
-//       if (!answered) {
-//         showNextQuestion();
-//         nextButton.style.display = 'none';
-//       }
-//     }
-//   }, speed);
-// }
 
   alert('GoodLuck!');
