@@ -108,7 +108,6 @@ answers: [
   let correctAnswers = 0;
   let currentQuestionIndex = 0;
   let remainingTime = 30;
-  // let answered = false;
   let timer;
   
   
@@ -117,7 +116,7 @@ answers: [
     totalQuestionsElement.textContent = totalQuestions;
   }
   
-function showNextQuestion() {
+  function showNextQuestion() {
     answered = false;
     clearInterval(timer);
     if (currentQuestionIndex < totalQuestions -1) {
@@ -156,18 +155,16 @@ function showNextQuestion() {
     answered = false;
   }
   
-; function tryAgain() {
-    // answerButton.querySelectorAll('.btn').forEach((btn) => {
-    //   btn.classList.remove('correct', 'incorrect');
-    //   btn.disabled = false;
-    // });
-    // tryAgainButtonDiv.style.display = 'Block';
-    tryAgainButtonBtn.classList.remove('correctAnswer');
+  function tryAgain() {
+    answerButton.querySelectorAll('.btn').forEach((btn) => {
+        btn.classList.remove('correct', 'incorrect');
+        btn.disabled = false;
+    });
     tryAgainButtonDiv.style.display = 'none';
-    startTimer();
-  }
-  
-  
+
+    remainingTime = 30;
+}
+ 
   function endQuiz() {
     if(correctAnswers === 0) {
       alert('You did not answer any questions correctly. Would you like to try again?');
@@ -182,42 +179,33 @@ function showNextQuestion() {
     }
   }
 
-//   nextButton.addEventListener('click', () => {
-// if (currentQuestionIndex >= totalQuestions - 1) {
-//   endQuiz();
-// } else {
-//   showNextQuestion();
-// }
-// });
 
-tryAgainButtonBtn.addEventListener('click', () => {
-resetQuiz();
-});
   
-  function checkAnswer(isCorrect, event) {
-    if (isCorrect) {
+function checkAnswer(isCorrect, e) {
+  if (isCorrect) {
       correctAnswers++;
-      event.target.classList.add('correct');
+      e.target.classList.add('correct');
       tryAgainButtonDiv.style.display = 'none';
       nextButton.style.display = 'block';
-    }
-    else {
-      event.target.classList.add('incorrect');
+  } else {
+      e.target.classList.add('incorrect');
       tryAgainButtonDiv.style.display = 'block';
       nextButton.style.display = 'none';
-      startTimer(remainingTime);
-      // showNextQuestion();
-    }
-  
-    answered = true;
-  
-    for (let i = 0; i < answerButton.children.length; i++) {
-      answerButton.children[i].disabled = true;
-    }
-    scoreElement.textContent = correctAnswers;
-    totalQuestionsElement.textContent = totalQuestions;
-    updateScore();
   }
+
+  answered = true;
+
+  for (let i = 0; i < answerButton.children.length; i++) {
+      answerButton.children[i].disabled = true;
+  }
+  scoreElement.textContent = correctAnswers;
+  totalQuestionsElement.textContent = totalQuestions;
+  updateScore();
+}
+
+tryAgainButtonBtn.addEventListener('click', () => {
+  resetQuiz();
+});
   
   function resetQuiz() {
     currentQuestionIndex = 0;
@@ -225,10 +213,7 @@ resetQuiz();
     nextButton.innerHTML = "Next";
     showQuestion();
     remainingTime = 30;
-    startTimer(remainingTime);
-  
-    tryAgainButtonDiv.style.display = 'none';
-    tryAgainButtonBtn.style.display = 'none';
+    tryAgainButtonBtn.style.display = 'block';
     answerButton.style.display = 'block';
   
     const endScreen = document.getElementById('end-screen');
@@ -275,11 +260,7 @@ resetQuiz();
   startQuiz();
   nextButton.style.display = 'none';
   
-
-
   let timerInterval; 
-
-
   function endQuiz() {
     clearInterval(timer);
     const endScreen = document.getElementById('end-screen');
